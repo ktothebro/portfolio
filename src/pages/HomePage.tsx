@@ -58,12 +58,18 @@ export function HomePage() {
                   Backend systems design and workflow orchestration. A sequence and its steps move
                   through explicit states.
                 </p>
-                <div className="flow" aria-hidden="true">
-                  <span>Pending</span>
-                  <span className="flow__arrow">→</span>
-                  <span className="flow__run">Running</span>
-                  <span className="flow__arrow">→</span>
-                  <span>Finished</span>
+                <div className="preview__evidence">
+                  <div className="flow" aria-hidden="true">
+                    <span className="flow__move">
+                      <span className="flow__chip">Pending</span>
+                      <span className="flow__arrow">→</span>
+                    </span>
+                    <span className="flow__move">
+                      <span className="flow__chip flow__run">Running</span>
+                      <span className="flow__arrow">→</span>
+                    </span>
+                    <span className="flow__chip">Finished</span>
+                  </div>
                 </div>
                 <a className="preview__open" href="#/affirmajourney">
                   View the state flow
@@ -77,15 +83,17 @@ export function HomePage() {
                   AI-powered property maintenance coordination. A report becomes a tracked next
                   action.
                 </p>
-                <div className="chat">
-                  <p className="chat__line chat__line--in">
-                    <span className="chat__who">Resident</span>
-                    The heater is short-cycling.
-                  </p>
-                  <p className="chat__line chat__line--out">
-                    <span className="chat__who">Flow</span>
-                    Logged. Checking the last service record.
-                  </p>
+                <div className="preview__evidence">
+                  <div className="chat">
+                    <p className="chat__line chat__line--in">
+                      <span className="chat__who">Resident</span>
+                      The heater is short-cycling.
+                    </p>
+                    <p className="chat__line chat__line--out">
+                      <span className="chat__who">Flow</span>
+                      Logged. Checking the last service record.
+                    </p>
+                  </div>
                 </div>
                 <p className="preview__soon">Case study coming soon</p>
               </article>
