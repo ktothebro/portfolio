@@ -1,74 +1,36 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import '@xyflow/react/dist/style.css';
-import { describeSelection } from './affirm/lookup';
-import { selectionsEqual } from './affirm/selection';
-import { sequenceMachine } from './affirm/sequenceMachine';
-import { stepMachine } from './affirm/stepMachine';
-import type { Selection } from './affirm/types';
-import { EditorialIntro } from './components/EditorialIntro';
-import { StateDiagram } from './components/StateDiagram';
-import { StateInspector } from './components/StateInspector';
+import { useEffect, useState } from 'react';
+import { AffirmaJourneyPage } from './pages/AffirmaJourneyPage';
+import { HomePage } from './pages/HomePage';
+
+type Route = 'home' | 'affirmajourney';
+
+function routeFromHash(): Route {
+  const raw = window.location.hash.replace(/^#/, '');
+  const path = raw.startsWith('/') ? raw : `/${raw}`;
+  const normalized = path.replace(/\/+$/, '') || '/';
+  if (normalized === '/affirmajourney') {
+    return 'affirmajourney';
+  }
+  return 'home';
+}
 
 export default function App() {
-  const [selection, setSelection] = useState<Selection | null>(null);
-  const [announcement, setAnnouncement] = useState('');
-  const selectionRef = useRef<Selection | null>(null);
+  const [route, setRoute] = useState<Route>(routeFromHash);
 
-  const onSelect = useCallback((next: Selection | null) => {
-    if (selectionsEqual(selectionRef.current, next)) {
-      return;
-    }
-    selectionRef.current = next;
-    setSelection(next);
-    setAnnouncement(describeSelection(next));
+  useEffect(() => {
+    const onHashChange = () => setRoute(routeFromHash());
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
   useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onSelect(null);
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [onSelect]);
+    document.body.classList.toggle('route-home', route === 'home');
+    return () => document.body.classList.remove('route-home');
+  }, [route]);
 
-  return (
-    <>
-      <p className="sr-only" aria-live="polite" aria-atomic="true">
-        {announcement}
-      </p>
-      <div className="mast">
-        <p>AJ / State flow</p>
-        <p>Sequence × Step</p>
-      </div>
-      <main className="page">
-        <EditorialIntro />
-        <div className="diagrams">
-          {[sequenceMachine, stepMachine].map((machine) => (
-            <section key={machine.id} className="panel" aria-labelledby={`${machine.id}-heading`}>
-              <div className="panel__bar">
-                <div>
-                  <p className="kicker">{machine.kicker}</p>
-                  <h2 id={`${machine.id}-heading`}>{machine.title}</h2>
-                </div>
-                <p className="panel__count">
-                  {machine.states.length} states
-                  <span aria-hidden="true"> · </span>
-                  {machine.transitions.length} transitions
-                </p>
-              </div>
-              <p className="panel__summary">{machine.summary}</p>
-              <StateDiagram machine={machine} selection={selection} onSelect={onSelect} />
-              <p className="panel__hint">
-                Tab to a state or transition, then press Enter. Drag to pan. The side rule marks the
-                kind of state. The accent outline marks the selection.
-              </p>
-            </section>
-          ))}
-        </div>
-        <StateInspector selection={selection} onSelect={onSelect} />
-      </main>
-    </>
-  );
+  if (route === 'affirmajourney') {
+    return <AffirmaJourneyPage />;
+  }
+
+  return <HomePage />;
 }
