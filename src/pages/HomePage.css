@@ -79,7 +79,7 @@ body.route-home {
   gap: clamp(0.85rem, 1.8vw, 1.35rem);
   width: var(--page);
   margin: 0 auto;
-  padding: clamp(1.75rem, 7vh, 4.25rem) 0 clamp(2.25rem, 5vw, 3.75rem);
+  padding: clamp(1.5rem, 4.5vh, 2.75rem) 0 clamp(2.25rem, 5vw, 3.75rem);
   container-type: inline-size;
 }
 
@@ -170,21 +170,39 @@ body.route-home {
   outline-color: var(--paper);
 }
 
-.preview--affirm :focus-visible {
-  outline-color: var(--preview-highlight);
+a.preview {
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+a.preview:visited {
+  color: inherit;
+}
+
+a.preview:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 0 0 1px var(--preview-accent);
+}
+
+a.preview:focus-visible {
+  outline: 2px solid #ffbe55;
+  outline-offset: 3px;
 }
 
 .work__inner {
   width: var(--page);
   margin: 0 auto;
-  padding: clamp(3.25rem, 7vw, 5rem) 0 clamp(3.5rem, 8vw, 5.5rem);
+  padding: clamp(3.3rem, 4.5vw, 3.75rem) 0 clamp(3.5rem, 8vw, 5.5rem);
 }
 
 .work__header {
   display: flex;
   align-items: baseline;
   gap: 0.8rem;
-  margin-bottom: clamp(2.25rem, 4.5vw, 3.5rem);
+  margin-bottom: clamp(2.25rem, 2.6vw, 2.35rem);
 }
 
 .work__index {
@@ -231,10 +249,6 @@ body.route-home {
   font-size: clamp(2rem, 3.2vw, 2.85rem);
 }
 
-.preview--affirm a:hover {
-  color: var(--preview-accent);
-}
-
 .preview--maint {
   --preview-bg: #f7f3e8;
   --preview-surface: #ffffff;
@@ -264,10 +278,6 @@ body.route-home {
   font-weight: 600;
   letter-spacing: -0.04em;
   line-height: 1;
-}
-
-.preview h3 a {
-  text-decoration: none;
 }
 
 .preview__summary {
@@ -318,11 +328,17 @@ body.route-home {
 }
 
 .preview__open {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   align-self: flex-start;
+  gap: 0.4rem;
   margin: 0;
   color: var(--preview-text);
   font-weight: 600;
+}
+
+a.preview .preview__open::after {
+  content: "→";
 }
 
 .chat {
@@ -394,5 +410,13 @@ body.route-home {
 @media (prefers-reduced-motion: reduce) {
   .home {
     scroll-behavior: auto;
+  }
+
+  a.preview {
+    transition: none;
+  }
+
+  a.preview:hover {
+    transform: none;
   }
 }

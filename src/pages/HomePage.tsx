@@ -49,11 +49,9 @@ export function HomePage() {
               <h2 id="work-heading">Selected Work</h2>
             </header>
             <div className="work__layout">
-              <article className="preview preview--affirm" aria-labelledby="affirm-heading">
+              <a className="preview preview--affirm" href="#/affirmajourney">
                 <p className="preview__kicker">01 / Backend systems</p>
-                <h3 id="affirm-heading">
-                  <a href="#/affirmajourney">AffirmaJourney</a>
-                </h3>
+                <h3 id="affirm-heading">AffirmaJourney</h3>
                 <p className="preview__summary">
                   Backend systems design and workflow orchestration. A sequence and its steps move
                   through explicit states.
@@ -71,10 +69,8 @@ export function HomePage() {
                     <span className="flow__chip">Finished</span>
                   </div>
                 </div>
-                <a className="preview__open" href="#/affirmajourney">
-                  View the state flow
-                </a>
-              </article>
+                <span className="preview__open">View the state flow</span>
+              </a>
 
               <article className="preview preview--maint" aria-labelledby="maint-heading">
                 <p className="preview__kicker">02 / Applied AI</p>
